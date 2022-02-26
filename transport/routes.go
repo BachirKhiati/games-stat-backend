@@ -23,7 +23,6 @@ func Router(newRelicApp *newrelic.Application) http.Handler {
 	}
 
 	router := gin.Default()
-	gin.ForceConsoleColor()
 	router.RedirectTrailingSlash = true
 	router.Use(nrgin.Middleware(newRelicApp))
 	router.Use(cors.New(corsConfig))

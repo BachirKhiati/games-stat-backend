@@ -5,7 +5,7 @@ services:
       context: .
       dockerfile: Dockerfile
     working_dir: /app
-    command: CompileDaemon -log-prefix=false -build="make build" -command="./dist/api"
+    command: CompileDaemon -polling=true -exclude-dir=./vendor -graceful-kill=true -log-prefix=false -build="make build" -command="./dist/api"
     volumes:
       - ./:/app
     ports:
@@ -14,17 +14,17 @@ services:
       - ./.env
     networks:
       - backend
-  cron:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    working_dir: /app
-    command: CompileDaemon -log-prefix=false -build="make buildcron" -command="/app/dist/cron"
-    env_file: ./.env
-    volumes:
-      - .:/app
-    networks:
-      - backend
+  # cron:
+  #   build:
+  #     context: .
+  #     dockerfile: Dockerfile
+  #   working_dir: /app
+  #   command: CompileDaemon -log-prefix=false -build="make buildcron" -command="/app/dist/cron"
+  #   env_file: ./.env
+  #   volumes:
+  #     - .:/app
+  #   networks:
+  #     - backend
   redis:
     image: redis:6.2.6-alpine
     networks:
